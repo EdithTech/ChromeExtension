@@ -12,10 +12,6 @@ inputBtn.addEventListener("click", clicked);
 deleteBtn.addEventListener("dblclick", deleteAll);
 tabBtn.addEventListener("click", tabButton);
 
-const tab = [
-    {url : "https://www.linkedin.com/in/yash-atalkar-677545219/"}
-]
-
 if(localStorageLeads){
     myLeads = localStorageLeads;
     render(myLeads);
@@ -52,8 +48,11 @@ function clicked(){
 }
 
 function tabButton(){
-    myLeads.push(tab[0].url);
-    render(myLeads);
+    chrome.tabs.query({active : true, currentWindow : true}, function(tabs){
+        myLeads.push(tabs[0].url);
+        localStorage.setItem("myLeads", JSON.stringify(myLeads) );
+        render(myLeads);
+    })
 }
 
 
